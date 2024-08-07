@@ -5,7 +5,7 @@ class  Tag(models.Model):
     name = models.CharField(max_length=31,unique=True)
     slug = models.SlugField(max_length=31,unique=True,help_text='a label for url config')
     def __str__(self):
-        return self.name
+        return self.name.title()
     
     class Meta:
         ordering = ['name']

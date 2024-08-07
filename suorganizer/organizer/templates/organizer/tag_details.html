@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{tag.name|title}}</h1>
+    {% if tag.startup_set%}
+    <section>      
+        <h3>startup{{tag.startup_set.count|pluralize}}</h3>
+        <p>The tag is associated with {{tag.startup_set.count}} startup{{tag.startup.all|length|pluralize}}</p>
+        <ul>
+            {% for startup in tag.startup_set.all%}
+            <li><a href="">{{startup.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+        {% endif %}
+
+    {% if tag.blog_posts%}
+    <section>
+        <h3>Blog post{{tag.blog_posts.count|pluralize}}</h3>
+        {%%}
+        <ul>
+            {% for post in tag.blog_posts.all%}
+            <li><a href="">{{post.title|title}}</a></li>
+            {% endfor%}
+        </ul>
+    </section>
+    {% endif%}
+    {% if not tag.starup_set.all and not tag.blog_posts.all%}
+    <p>This tag is not related to any content.</p>
+    {%endif%}
+</body>
+</html>
