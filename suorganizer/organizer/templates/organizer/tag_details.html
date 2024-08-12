@@ -23,7 +23,6 @@
     {% if tag.blog_posts%}
     <section>
         <h3>Blog post{{tag.blog_posts.count|pluralize}}</h3>
-        {%%}
         <ul>
             {% for post in tag.blog_posts.all%}
             <li><a href="">{{post.title|title}}</a></li>
