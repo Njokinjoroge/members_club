@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class  Tag(models.Model):
@@ -9,6 +10,9 @@ class  Tag(models.Model):
     
     class Meta:
         ordering = ['name']
+
+    def get_absolute_url(self):
+        return reverse('organizer_detail_tag_detail',kwargs={'slug':self.slug})
 
 class  Startup(models.Model):
     name = models.CharField(max_length=31,db_index=True)
@@ -24,6 +28,10 @@ class  Startup(models.Model):
     class meta:
         ordering = ['name']
         get_latest_by = 'founded_date'  # get the latest startup by founded_date
+
+    def get_absolute_url(self):
+        return reverse('organizer_startup_detail',
+                       kwargs={'slug':self.slug})
     
 class  Newslink(models.Model):
     title= models.CharField(max_length=63)
