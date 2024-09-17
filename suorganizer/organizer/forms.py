@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 
 
 class SlugCleanMixing:
+    
     def clean_slug(self):
         new_slug =(self.cleaned_data['slug'].lower())
         if new_slug == 'create':
@@ -12,7 +13,7 @@ class SlugCleanMixing:
         return new_slug
 
 
-class TagForm(SlugCleanMixing(forms.ModelForm)):
+class TagForm(SlugCleanMixing,forms.ModelForm):
     
     class Meta:
         model = Tag
@@ -29,7 +30,7 @@ class NewslinkForm(forms.ModelForm):
     
 
 
-class StartUpForm(SlugCleanMixing(forms.ModelForm)):
+class StartUpForm(SlugCleanMixing,forms.ModelForm):
     class Meta:
         model = Startup
         fields = '__all__'  # For all fields, you can also specify a list of
