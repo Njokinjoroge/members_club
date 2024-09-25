@@ -1,22 +1,82 @@
-{% extends parent_template|default:"organizer/base_organizer.html" %}
+{% extends parent_template|default:"organizer/base_organizer.html"%}
 
-{%block title%}
-{{ block.super }} - Create Tag
-{%endblock%}
+{% block title%}
+{{ block.super }} - create Tag
+{% endblock %}
 
-{%block content%}
-<form action="{% url 'organizer_tag_create' %}"
-method="post">
-{% csrf_token %}
-<p>
-    <label for="id_name">Name:</label>
-    <input id="id_name" type="text" name="name" maxlength="31" id="id_name"/>
-</p>
-<p>
-    <label for="id_slug">Slug:</label>
-    <input id="id_slug" type="text" name="slug" maxlength="31"/>
-    <span class="helptext">A label for URL config</span>
-</p>
-<button type="submit">Create Tag</button>
+{% block content%}
+<form action="{%url 'organizer_tag_create'%}" method="post">
+    {% csrf_token %}
+    {%for field in form %}
+    {{field.errors}}
+    <p>
+        {{field.label_tag}} {{field}}
+        {% if field.help_text%}
+        <span class="help_text">
+            {{field.help_text}}
+        </span>
+        {%endif%}
+    </p>
+    {%endfor%}
+   
 </form>
 {%endblock%}
+
+
+
+
+
+
+
+
+
+
+ <!-- {{ form.non_field_errors }}
+    {{ form.name.errors }}
+    <p>   
+        {{ form.name.label }}
+        {{ form.name }}
+    </p>
+
+    {{ form.slug.errors }}
+    <p>
+        {{ form.slug.label }}
+        {{ form.slug }}
+        <span class="helptext">{{ form.slug.help_text }}</span>
+    </p>
+    <button type="submit">create tag</button> -->
+
+
+<!-- {%if form.slug.errors%}
+    <ul>
+        {%for error in form.slug.errors%}
+        <li>{{error}}</li>
+        {%endfor%}
+    </ul>
+    {%endif%} -->
+    <!-- {%if form.name.errors%}
+    <ul>
+        {%for error in form.name.errors%}
+        <li><em>{{error}}</em></li>
+        {%endfor%}
+    </ul>
+    {%endif%} -->
+    <!-- {%if form.non_field_errors%}
+    <ul>
+        {%for error in form.non_field_errors%}
+        <li><em>{{error}}</em></li>
+        {%endfor%}
+    </ul>
+    {%endif%} -->
+    <!-- {%if form.slug.value%}
+    <input type="text"id ="id_slug" name="slug"
+    value="{{form.slug.value}}" maxlength="31">
+    {%else%}
+    <input type="text"id ="id_slug" name="slug" maxlength="31">
+    {%endif%} -->
+    <!-- {%if form.name.value%}
+    <input type="text"id ="id_name" name="name"
+    value="{{form.name.value}}" maxlength="31">
+    {%else%}
+    <input type="text"id ="id_name" name="name" maxlength="31">
+    {%endif%} -->
