@@ -3,7 +3,7 @@ from .models import Tag,Startup
 from django.views.generic import View
 from django.shortcuts import get_object_or_404,redirect,render
 from django.template import Context, loader
-from.forms import TagForm
+from.forms import TagForm,StartUpForm,NewslinkForm
 
 
 def tag_list(request):
@@ -36,7 +36,7 @@ def startup_details(request,slug):
 #     else:
 #         form =TagForm()
 #         return render(request,"organizer/tag_form.html",{'form':form})
-class TagCreate:
+class TagCreate(View):
     form_class=TagForm
     template_name='organizer/tag_form.html'
     def get(self,request):
@@ -50,4 +50,30 @@ class TagCreate:
             return render(request,self.template_name,{'form':form})
 
 
+class StartUpCreate(View):
+    form_class=StartUpForm
+    template_name='organizer/startup_form.html'    
+    def get(self,request):
+        return render(request,self.template_name,{'form':self.form_class()})
+    
+    def post(self,request):
+        form=self.form_class(request.POST)
+        if form.is_valid:
+            new_startup=form.save()
+            return redirect(new_startup)
         
+        else:
+            return render(request,self.template_name,{'form':form})
+
+class CreateNewsLink(View):
+    form_class = NewslinkForm
+    template_name='organizer/newslink_form'
+    def get(self,request):
+        return render(request,self.template_name,{'form':self.form_class()})
+    def post(self,request):
+        form= self.form_class(request.POST)
+        if form.is_valid():
+            new_newslink=form.save()
+            return redirect(new_newslink)
+        else:
+            return render(request,self.form_class,{'form':form})

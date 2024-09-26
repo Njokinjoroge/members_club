@@ -38,7 +38,10 @@ class  Newslink(models.Model):
     pub_date = models.DateField('date published')
     link = models.URLField(max_length=255)
     startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
-
+    
+    def get_absolute_url(self):
+        return self.startup.get_absolute_url()
+    
     def __str__(self):
         return '{}:{}'.format(self.startup,self.title)
     class Meta:

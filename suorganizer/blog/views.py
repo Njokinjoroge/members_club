@@ -17,9 +17,9 @@ def post_details(request,year,month,slug,parent_template=None):
 
 class PostCreate(View):
     form_class=PostForm
-    template_name='post_form.html'
+    template_name='blog/post_form.html'
     def get(self,request):
-        return render(request,'blog/post_form.html',{'form':self.form_class()})   
+        return render(request,self.template_name,{'form':self.form_class()})   
     def post(self,request):
         form=self.form_class(request.POST)
         if form.is_valid:
