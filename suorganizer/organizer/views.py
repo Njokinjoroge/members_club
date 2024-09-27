@@ -36,44 +36,48 @@ def startup_details(request,slug):
 #     else:
 #         form =TagForm()
 #         return render(request,"organizer/tag_form.html",{'form':form})
-class TagCreate(View):
+
+
+
+class ObjectCreateMixing:
+    form_class=None
+    template_name=''
+
+    def get(self,request):
+        return render(request,self.template_name,
+                      {'form':self.form_class()})
+    def post(self,request):
+        form=self.form_class(request.POST)
+        if form.is_valid():
+            new_object=form.save()
+            return redirect(new_object)
+        else:
+            return render(request,self.template_name,{'form':form})
+class TagCreate(ObjectCreateMixing,View):
     form_class=TagForm
     template_name='organizer/tag_form.html'
-    def get(self,request):
-        return render(request,"organizer/tag_form.html",{'form':self.form_class()})
-    def post(self,request):
-        form=self.form_class(request.POST)
-        if form.is_valid():
-            new_tag=form.save()
-            return redirect(new_tag)
-        else:
-            return render(request,self.template_name,{'form':form})
-
-
-class StartUpCreate(View):
+  
+        
+class StartUpCreate(ObjectCreateMixing,View):
     form_class=StartUpForm
     template_name='organizer/startup_form.html'    
-    def get(self,request):
-        return render(request,self.template_name,{'form':self.form_class()})
     
-    def post(self,request):
-        form=self.form_class(request.POST)
-        if form.is_valid:
-            new_startup=form.save()
-            return redirect(new_startup)
-        
-        else:
-            return render(request,self.template_name,{'form':form})
 
-class CreateNewsLink(View):
-    form_class = NewslinkForm
+class CreateNewsLink(ObjectCreateMixing,View):
+    form_class= NewslinkForm
     template_name='organizer/newslink_form'
-    def get(self,request):
-        return render(request,self.template_name,{'form':self.form_class()})
-    def post(self,request):
-        form= self.form_class(request.POST)
-        if form.is_valid():
-            new_newslink=form.save()
-            return redirect(new_newslink)
-        else:
-            return render(request,self.form_class,{'form':form})
+        
+
+
+# class CreateNewsLink(View):
+#     form_class = NewslinkForm
+#     template_name='organizer/newslink_form'
+#     def get(self,request):
+#         return render(request,self.template_name,{'form':self.form_class()})
+#     def post(self,request):
+#         form= self.form_class(request.POST)
+#         if form.is_valid():
+#             new_newslink=form.save()
+#             return redirect(new_newslink)
+#         else:
+#             return render(request,self.form_class,{'form':form})
