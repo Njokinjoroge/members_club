@@ -24,7 +24,34 @@ class PostCreate(View):
         form=self.form_class(request.POST)
         if form.is_valid:
             new_post=form.save()
-            return redirect(new_post)
-        
+            return redirect(new_post)    
         else:
             return render(request,self.template_name,{'form':form})
+
+class PostUpdate(View):
+  form_calss=PostForm
+  model=Post
+  template_name="post_form.html"
+  def get_object(self,year,month,slug):
+      return get_object_or_404(self.model,pub_date__year=year,pub_date__month=month,slug=slug)
+  
+  def get(self,request,year,month,slug):
+      post=self.get_object(year,month,slug)
+      context={
+          'form':self.form_calss(instance=post),
+          'post':post
+      }
+      return render(request,self.template_name,context)
+  
+  def post(self,request,year,slug,month):
+      post=self.get_object(year,slug,month)
+      bound_form= self.form_calss(request.post,instance=post)
+      if bound_form.is_valid():
+          new_post=bound_form.save()
+          return redirect(new_post)
+      else:
+          context={
+              "form":bound_form,"post":post
+          }
+          return render(request,self.template_name,context)
+
