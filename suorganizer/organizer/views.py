@@ -63,9 +63,14 @@ class StartUpCreate(ObjectCreateMixing,View):
     template_name='organizer/startup_form.html'    
     
 
-class CreateNewsLink(ObjectCreateMixing,View):
-    form_class= NewslinkForm
-    template_name='organizer/newslink_form'
+
+class CreateNewsLink(ObjectCreateMixing,view):
+    form_class = NewslinkForm
+    template_name = 'organizer/newslink_form'
+
+# class CreateNewsLink(ObjectCreateMixing,View):
+#     form_class= NewslinkForm
+#     template_name='organizer/newslink_form'
         
 
 
